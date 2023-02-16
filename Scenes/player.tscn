@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq67lrylof2px"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sekfk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q7vya"]
+size = Vector2(26, 26)
+
+[node name="Player" type="CharacterBody2D"]
+metadata/_edit_group_ = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(26, 26)
+mesh = SubResource("QuadMesh_sekfk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_q7vya")

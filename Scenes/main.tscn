@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://b54q0tgp1p558"]
+
+[ext_resource type="Texture2D" uid="uid://diui7i6o3ak7d" path="res://Assets/TileableBackGround.png" id="1_sx3tm"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_t4sha"]
+
+[node name="Main" type="Node2D"]
+
+[node name="TileableBackGround" type="Sprite2D" parent="."]
+texture = ExtResource("1_sx3tm")
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="WallTop" type="MeshInstance2D" parent="Walls"]
+position = Vector2(0.124817, -1273.38)
+scale = Vector2(3231.75, 136.75)
+mesh = SubResource("QuadMesh_t4sha")
+
+[node name="WallBottom" type="MeshInstance2D" parent="Walls"]
+position = Vector2(7.45058e-09, 1267)
+scale = Vector2(3231.75, 136.75)
+mesh = SubResource("QuadMesh_t4sha")
+
+[node name="WallLeft" type="MeshInstance2D" parent="Walls"]
+position = Vector2(-1621, -17.0001)
+rotation = 1.5708
+scale = Vector2(2481.4, 105)
+mesh = SubResource("QuadMesh_t4sha")
+
+[node name="WallRight" type="MeshInstance2D" parent="Walls"]
+position = Vector2(1619, -17.0001)
+rotation = 1.5708
+scale = Vector2(2481.4, 105)
+mesh = SubResource("QuadMesh_t4sha")
