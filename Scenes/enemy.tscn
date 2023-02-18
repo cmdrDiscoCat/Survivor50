@@ -1,16 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://t6e0sj5iwbtj"]
+[gd_scene load_steps=4 format=3 uid="uid://bwq0px25qxbta"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_4ftxw"]
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_d4gdq"]
+[ext_resource type="Texture2D" uid="uid://c1km2x643tea3" path="res://Assets/js_logo.png" id="1_gm1v8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8vs0"]
-size = Vector2(26, 26)
+size = Vector2(32, 32)
 
-[node name="Enemy" type="RigidBody2D"]
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_d4gdq")
 metadata/_edit_group_ = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-scale = Vector2(26, 26)
-mesh = SubResource("QuadMesh_4ftxw")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_gm1v8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_s8vs0")

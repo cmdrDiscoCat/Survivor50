@@ -1,21 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://dq67lrylof2px"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b4ytp"]
+[ext_resource type="Texture2D" uid="uid://c4xjxir63moge" path="res://Assets/cs50-duck.png" id="2_jvp4t"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_sekfk"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q7vya"]
-size = Vector2(26, 26)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0njrb"]
+radius = 12.0
+height = 46.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_b4ytp")
 metadata/_edit_group_ = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-scale = Vector2(26, 26)
-mesh = SubResource("QuadMesh_sekfk")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_jvp4t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_q7vya")
+shape = SubResource("CapsuleShape2D_0njrb")
 
 [node name="Camera2D" type="Camera2D" parent="."]

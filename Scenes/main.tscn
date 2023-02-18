@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b54q0tgp1p558"]
+[gd_scene load_steps=6 format=3 uid="uid://b54q0tgp1p558"]
 
 [ext_resource type="Texture2D" uid="uid://diui7i6o3ak7d" path="res://Assets/TileableBackGround.png" id="1_sx3tm"]
 [ext_resource type="PackedScene" uid="uid://dq67lrylof2px" path="res://Scenes/player.tscn" id="2_hm3qx"]
 [ext_resource type="Script" path="res://Scripts/FPS.gd" id="3_8pmdh"]
+[ext_resource type="PackedScene" uid="uid://bwq0px25qxbta" path="res://Scenes/enemy.tscn" id="4_c6nhm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x62i3"]
 size = Vector2(0.99269, 0.994517)
@@ -60,3 +61,6 @@ offset_top = -46.0
 offset_right = 56.0
 offset_bottom = -23.0
 script = ExtResource("3_8pmdh")
+
+[node name="Enemy" parent="." instance=ExtResource("4_c6nhm")]
+position = Vector2(146, -27)
