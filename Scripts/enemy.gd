@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var speed = 350
 const ACCELERATION = 400
+var health = 10
 
 @onready var player = get_parent().get_node("Player")
 
@@ -23,6 +24,13 @@ func _process(delta):
         var body = collision.get_collider()
         if body.name == "Player":
             #we hit the player, so we use it's damage function
-            body.damage(delta)
-            
-        print("Collision with ", body.name)
+            body.damage(delta,1)
+
+
+func damage(amount=10):
+    # we're taking damage if we're not dead
+    if health > 0:
+        health -= amount
+    # then we deal with the death and the loss of health
+    if health <= 0:
+        queue_free()

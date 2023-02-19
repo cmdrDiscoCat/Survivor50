@@ -6,7 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8vs0"]
 size = Vector2(32, 32)
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 30
 script = ExtResource("1_d4gdq")
 metadata/_edit_group_ = true
 

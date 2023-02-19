@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq67lrylof2px"]
+[gd_scene load_steps=6 format=3 uid="uid://dq67lrylof2px"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b4ytp"]
 [ext_resource type="Texture2D" uid="uid://c4xjxir63moge" path="res://Assets/cs50-duck.png" id="2_jvp4t"]
 [ext_resource type="Script" path="res://Scripts/Health.gd" id="3_sfdmo"]
+[ext_resource type="Script" path="res://Scripts/FPS.gd" id="4_ysxya"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0njrb"]
 radius = 12.0
@@ -31,3 +32,16 @@ theme_override_font_sizes/font_size = 14
 step = 1.0
 value = 100.0
 script = ExtResource("3_sfdmo")
+
+[node name="FPS" type="Label" parent="."]
+offset_left = -586.0
+offset_top = -345.0
+offset_right = -534.0
+offset_bottom = -322.0
+script = ExtResource("4_ysxya")
+
+[node name="BulletTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
