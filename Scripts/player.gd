@@ -5,9 +5,6 @@ extends CharacterBody2D
 @onready var healthBar = $Health
 
 var bullet = preload("res://Scenes/bullet.tscn")
-var closest = INF
-var guided_once = true
-var closest_enemy = null
 
 func get_input():
     var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -37,10 +34,16 @@ func damage(delta, amount=1):
 
 
 func _on_bullet_timer_timeout():    
+    spawn_bullet()
+
+
+func spawn_bullet():
+    var closest = INF
+    var closest_enemy = null
     # we determine a target if we can, else we don't spawn bullets
     # we get all the enemies
     var enemies = get_tree().get_nodes_in_group("enemies")
-    
+    print(enemies)
     # for all those enemies
     for enemy in enemies:
         # we get the distance to the bullet cause it's spawned below the player
@@ -54,11 +57,20 @@ func _on_bullet_timer_timeout():
     # at the end of the loop we have our closest enemy
     # we calculate the direction we'll use for the bullet's movement
     if closest_enemy != null:
+        # we get the direction of the target by substracting the positions
+        # Vectors, right ? :D
         var target = (closest_enemy.global_position - global_position).normalized()
+        # we instanciate a bullet
         var this_bullet = bullet.instantiate()
+        # we set it as a child of main, not the player
         get_parent().add_child(this_bullet)
+        # we place it where the player is
         this_bullet.global_position = global_position
+        # then we tell it the direction its target was when it spawned
         this_bullet.set_direction(target)
+        
+    
+    
     
     
 

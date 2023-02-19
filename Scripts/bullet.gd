@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const ACCELERATION = 500
+const ACCELERATION = 1000
 
 var direction = null
 var speed = 450
@@ -17,7 +17,7 @@ func _process(delta):
             var body = collision.get_collider()
             if body.is_in_group("enemies"):
                 # we hit an enemy, so we use it's damage function
-                body.damage(delta, 10)
+                body.damage(10)
                 # then we delete the bullet
                 queue_free()
     

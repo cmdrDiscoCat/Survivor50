@@ -8,6 +8,7 @@ size = Vector2(32, 32)
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 30
+collision_mask = 2
 script = ExtResource("1_d4gdq")
 metadata/_edit_group_ = true
 

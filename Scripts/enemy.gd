@@ -4,7 +4,7 @@ extends CharacterBody2D
 const ACCELERATION = 400
 var health = 10
 
-@onready var player = get_parent().get_node("Player")
+var player = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,18 +13,19 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-    # let's get the vector between that enemy and the player
-    var direction = (player.global_position - global_position).normalized()
-    # let's make the enemy move towards the player
-    velocity = velocity.move_toward(direction * speed, ACCELERATION * delta)
-    
-    var collision = move_and_collide(velocity * delta)
-    # if we're colling with something, we'll display it
-    if collision != null :
-        var body = collision.get_collider()
-        if body.name == "Player":
-            #we hit the player, so we use it's damage function
-            body.damage(delta,1)
+    if player:
+        # let's get the vector between that enemy and the player
+        var direction = (player.global_position - global_position).normalized()
+        # let's make the enemy move towards the player
+        velocity = velocity.move_toward(direction * speed, ACCELERATION * delta)
+        
+        var collision = move_and_collide(velocity * delta)
+        # if we're colling with something, we'll display it
+        if collision != null :
+            var body = collision.get_collider()
+            if body.name == "Player":
+                #we hit the player, so we use it's damage function
+                body.damage(delta,1)
 
 
 func damage(amount=10):
@@ -34,3 +35,7 @@ func damage(amount=10):
     # then we deal with the death and the loss of health
     if health <= 0:
         queue_free()
+
+func get_player(target):
+    player = target
+    print(target)
