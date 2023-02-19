@@ -53,14 +53,14 @@ position = Vector2(-0.000348062, -0.0265083)
 scale = Vector2(1, 0.999999)
 shape = SubResource("RectangleShape2D_x62i3")
 
+[node name="Enemy" parent="." instance=ExtResource("4_c6nhm")]
+position = Vector2(146, -27)
+
 [node name="Player" parent="." instance=ExtResource("2_hm3qx")]
 
 [node name="Label" type="Label" parent="Player"]
-offset_left = 16.0
-offset_top = -46.0
-offset_right = 56.0
-offset_bottom = -23.0
+offset_left = -586.0
+offset_top = -345.0
+offset_right = -534.0
+offset_bottom = -322.0
 script = ExtResource("3_8pmdh")
-
-[node name="Enemy" parent="." instance=ExtResource("4_c6nhm")]
-position = Vector2(146, -27)
