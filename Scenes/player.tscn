@@ -36,9 +36,9 @@ script = ExtResource("3_sfdmo")
 
 [node name="FPS" type="Label" parent="."]
 offset_left = -586.0
-offset_top = -345.0
+offset_top = -325.0
 offset_right = -534.0
-offset_bottom = -322.0
+offset_bottom = -302.0
 script = ExtResource("4_ysxya")
 
 [node name="BulletTimer" type="Timer" parent="."]

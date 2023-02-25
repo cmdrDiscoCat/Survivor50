@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var health = 100
 @onready var healthBar = $Health
 
+signal death
+
 var bullet = preload("res://Scenes/bullet.tscn")
 
 func get_input():
@@ -26,9 +28,9 @@ func damage(delta, amount=1):
     if health > 0:
         health -= delta * amount * 20
     # then we deal with the death and the loss of health
-    if health == 0:
+    if health < 1:
         print("Dead")
-        emit_signal("dead")
+        emit_signal("death")
     else:
         healthBar.value = health
 

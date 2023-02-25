@@ -9,7 +9,7 @@ var enemy = preload("res://Scenes/enemy.tscn")
 
 const safe_range = 700
 const MAX_ENEMY_COUNT = 100
-var current_enemy_count = 0
+var current_enemy_count
 
 func _ready():
     randomize()
@@ -17,9 +17,33 @@ func _ready():
 
 func _on_enemy_timer_timeout():
     # on each tick of this time, we spawn an enemy
+    current_enemy_count = get_tree().get_nodes_in_group("enemies").size();
     if current_enemy_count < MAX_ENEMY_COUNT:
         spawn_enemy()
-        current_enemy_count += 1
+
+
+func start_game():
+    $MainMenu.visible = false
+    $Player.visible = true
+    $Player.health = 100
+    $Player/Health.value = 100
+    $Player/HUD.visible = true
+    $Player/BulletTimer.start()
+    $EnemyTimer.start()
+    
+    
+func end_game():
+    $Player.visible = false
+    $Player/HUD.visible = false
+    $Player/BulletTimer.stop()
+    $EnemyTimer.stop()
+    # destroy all remaining enemies
+    var enemies = get_tree().get_nodes_in_group("enemies")
+    for the_enemy in enemies:
+        the_enemy.queue_free()
+        
+    $MainMenu.visible = true
+    
 
 
 # function that spawn an enemy
@@ -36,8 +60,8 @@ func spawn_enemy():
 
 
 func get_spawn_location():
-    var posx = randi_range(0, world_x)
-    var posy = randi_range(0, world_y)
+    var posx = randi_range(0 - world_x, world_x)
+    var posy = randi_range(0 - world_y, world_y)
     var spawn = Vector2(posx,posy)
     var distance_x = posx - player_position.x
     var distance_y = posy - player_position.y
