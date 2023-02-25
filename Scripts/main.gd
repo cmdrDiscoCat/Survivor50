@@ -58,7 +58,6 @@ func spawn_enemy():
     get_parent().add_child(this_enemy)
     # we give it the player reference
     this_enemy.get_player($Player)
-    print('Enemy instanciated')
 
 
 func get_spawn_location():
@@ -68,5 +67,5 @@ func get_spawn_location():
     var distance_x = posx - player_position.x
     var distance_y = posy - player_position.y
     if abs(distance_x) < safe_range or abs(distance_y) < safe_range : # if we are too close
-      spawn = get_spawn_location() # just get a new one instead
+        spawn = get_spawn_location() # just get a new one instead
     return spawn

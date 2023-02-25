@@ -45,7 +45,6 @@ func spawn_bullet():
     # we determine a target if we can, else we don't spawn bullets
     # we get all the enemies
     var enemies = get_tree().get_nodes_in_group("enemies")
-    print(enemies)
     # for all those enemies
     for enemy in enemies:
         # we get the distance to the bullet cause it's spawned below the player
