@@ -33,14 +33,16 @@ func start_game():
     
     
 func end_game():
+    $Player.global_position = Vector2.ZERO
     $Player.visible = false
     $Player/HUD.visible = false
     $Player/BulletTimer.stop()
     $EnemyTimer.stop()
     # destroy all remaining enemies
     var enemies = get_tree().get_nodes_in_group("enemies")
-    for the_enemy in enemies:
-        the_enemy.queue_free()
+    if len(enemies) > 0:
+        for the_enemy in enemies:
+            the_enemy.queue_free()
         
     $MainMenu.visible = true
     

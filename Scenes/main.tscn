@@ -71,3 +71,6 @@ offset_bottom = -359.0
 
 [connection signal="death" from="Player" to="." method="end_game"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="pressed" from="MainMenu/Start" to="." method="start_game"]
+
+[editable path="MainMenu"]

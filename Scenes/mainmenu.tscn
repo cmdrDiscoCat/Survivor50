@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckukvebdse6ab"]
+[gd_scene load_steps=3 format=3 uid="uid://ckukvebdse6ab"]
+
+[ext_resource type="Texture2D" uid="uid://diui7i6o3ak7d" path="res://Assets/TileableBackGround.png" id="1_8skho"]
 
 [sub_resource type="Theme" id="Theme_p2ysh"]
 
@@ -10,6 +12,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -927.0
+offset_top = -705.0
+offset_right = 2195.0
+offset_bottom = 1701.0
+texture = ExtResource("1_8skho")
+stretch_mode = 1
 
 [node name="GameTitle" type="RichTextLabel" parent="."]
 layout_mode = 1
