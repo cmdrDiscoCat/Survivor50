@@ -29,6 +29,7 @@ func _ready():
 
     
 func start_timers():
+    game_timer = 0
     $EnemyTimer.start()
     $GameTimer.start()
 
@@ -49,7 +50,6 @@ func _on_game_timer_timeout():
     var minutes = game_timer/60
     var seconds = game_timer - minutes*60
     var timer_str = str(minutes,":","%02d"%seconds)
-    print(timer_str) 
     label_gameTimer.set_text(timer_str)
 
 

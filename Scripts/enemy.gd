@@ -76,4 +76,3 @@ func damage(amount=10):
 
 func get_player(target):
     player = target
-    print(target)
