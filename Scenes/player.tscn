@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dq67lrylof2px"]
+[gd_scene load_steps=7 format=3 uid="uid://dq67lrylof2px"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b4ytp"]
 [ext_resource type="Texture2D" uid="uid://c4xjxir63moge" path="res://Assets/cs50-duck.png" id="2_jvp4t"]
+[ext_resource type="PackedScene" uid="uid://dnu3iery5prnu" path="res://Scenes/hud.tscn" id="3_efmbu"]
 [ext_resource type="Script" path="res://Scripts/Health.gd" id="3_sfdmo"]
 [ext_resource type="Script" path="res://Scripts/FPS.gd" id="4_ysxya"]
 
@@ -24,6 +25,17 @@ debug_color = Color(0.760784, 0.356863, 0.72549, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="HUD" parent="Camera2D" instance=ExtResource("3_efmbu")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -640.0
+offset_top = -358.0
+offset_right = -640.0
+offset_bottom = -358.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="Health" type="ProgressBar" parent="."]
 offset_left = -46.0
 offset_top = 28.0
@@ -35,9 +47,9 @@ value = 100.0
 script = ExtResource("3_sfdmo")
 
 [node name="FPS" type="Label" parent="."]
-offset_left = -586.0
+offset_left = -629.0
 offset_top = -325.0
-offset_right = -534.0
+offset_right = -577.0
 offset_bottom = -302.0
 script = ExtResource("4_ysxya")
 

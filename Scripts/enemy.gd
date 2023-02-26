@@ -1,14 +1,52 @@
 extends CharacterBody2D
 
-@export var speed = 350
-const ACCELERATION = 400
-var health = 10
+var enemy_c = preload("res://Assets/c_logo.png")
+var enemy_cpp = preload("res://Assets/cpp_logo.png")
+var enemy_cs = preload("res://Assets/cs_logo.png")
+var enemy_css = preload("res://Assets/css_logo.png")
+var enemy_js = preload("res://Assets/js_logo.png")
+
+var speed
+var ACCELERATION
+var health
+var attack
 
 var player = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
     velocity = Vector2.ZERO
+    
+
+# we set values of the instance of this enemy
+func initialize(type, boss, h, s, a, d):
+    # initializing values
+    speed = s
+    ACCELERATION = a
+    health = h
+    attack = d
+    # initializing texture
+    if type == "c":
+        $Sprite2D.texture = enemy_c
+    elif type == "css":
+        $Sprite2D.texture = enemy_css
+    elif type == "cpp":
+        $Sprite2D.texture = enemy_cpp
+    elif type == "cs":
+        $Sprite2D.texture = enemy_cs
+    elif type == "js":
+        $Sprite2D.texture = enemy_js
+    else:
+        $Sprite2D.texture = enemy_c
+    # initializing scale for bosses
+    if boss:
+        print("Boss spawned")
+        $Sprite2D.scale = Vector2(2,2)
+        $CollisionShape2D.scale = Vector2(4,4)
+    else:
+        $Sprite2D.scale = Vector2(0.5,0.5)
+        $CollisionShape2D.scale = Vector2(1,1)
+    
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,7 +63,7 @@ func _process(delta):
             var body = collision.get_collider()
             if body.name == "Player":
                 #we hit the player, so we use it's damage function
-                body.damage(delta,1)
+                body.damage(delta,attack)
 
 
 func damage(amount=10):

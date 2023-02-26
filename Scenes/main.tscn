@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_nvtrj"]
 [ext_resource type="Texture2D" uid="uid://diui7i6o3ak7d" path="res://Assets/TileableBackGround.png" id="1_sx3tm"]
 [ext_resource type="PackedScene" uid="uid://dq67lrylof2px" path="res://Scenes/player.tscn" id="2_hm3qx"]
-[ext_resource type="PackedScene" uid="uid://dnu3iery5prnu" path="res://Scenes/hud.tscn" id="4_865e5"]
 [ext_resource type="PackedScene" uid="uid://ckukvebdse6ab" path="res://Scenes/mainmenu.tscn" id="5_mq3oj"]
+[ext_resource type="PackedScene" uid="uid://dchc6pnichkp2" path="res://Scenes/enemy_manager.tscn" id="6_l1cjp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x62i3"]
 size = Vector2(0.99269, 0.994517)
@@ -58,19 +58,11 @@ shape = SubResource("RectangleShape2D_x62i3")
 [node name="Player" parent="." instance=ExtResource("2_hm3qx")]
 visible = false
 
-[node name="HUD" parent="Player" instance=ExtResource("4_865e5")]
-visible = false
-offset_left = -600.0
-offset_top = -359.0
-offset_right = -600.0
-offset_bottom = -359.0
-
-[node name="EnemyTimer" type="Timer" parent="."]
-
 [node name="MainMenu" parent="." instance=ExtResource("5_mq3oj")]
 
+[node name="EnemyManager" parent="." instance=ExtResource("6_l1cjp")]
+
 [connection signal="death" from="Player" to="." method="end_game"]
-[connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
 [connection signal="pressed" from="MainMenu/Start" to="." method="start_game"]
 
 [editable path="MainMenu"]
