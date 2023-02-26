@@ -5,6 +5,9 @@ func start_game():
     $Player.visible = true
     $Player.alive = 1
     $Player.health = 100
+    $Player.experience = 0
+    $Player.player_level = 1
+    $Player.collected_experience = 0
     $Player/Health.value = 100
     $Player/Camera2D/HUD.visible = true
     $Player/BulletTimer.start()
