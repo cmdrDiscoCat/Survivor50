@@ -7,7 +7,7 @@ var enemy = preload("res://Scenes/enemy.tscn")
 @onready var label_gameTimer = get_tree().get_root().get_node("Main/Player/Camera2D/HUD/ProgressBar/LblGameTimer")
 
 const safe_range = 900
-const MAX_ENEMY_COUNT = 100
+const MAX_ENEMY_COUNT = 200
 var current_enemy_count
 
 var game_timer = 0
@@ -64,15 +64,15 @@ func wave_manager():
     elif game_timer > wave2_end and game_timer < wave3_end:
         spawn_enemy(1, "cs",50,350,400,3,false,false)
     elif game_timer == wave3_end:
-        spawn_enemy(1, "cs",200,350,400,9,false,true)
+        spawn_enemy(1, "cs",200,350,400,9,true,true)
     elif game_timer > wave3_end and game_timer < wave4_end:
         spawn_enemy(1, "css",70,350,400,4,false,false)
     elif game_timer == wave4_end:
-        spawn_enemy(1, "css",280,350,400,12,false,true)
+        spawn_enemy(1, "css",280,350,400,12,true,true)
     elif game_timer > wave4_end and game_timer < wave5_end:
         spawn_enemy(1, "js",100,350,400,5,false,false)
     elif game_timer == wave5_end:
-        spawn_enemy(1, "js",400,350,400,15,false,true)
+        spawn_enemy(1, "js",400,350,400,15,true,true)
     else : 
         spawn_enemy(1, "c",10,350,400,1,false,false)
         spawn_enemy(1, "cpp",30,350,400,2,false,false)

@@ -12,7 +12,6 @@ func start_game():
     
     
 func end_game():
-    
     $Player.global_position = Vector2.ZERO
     $Player.visible = false
     $Player/Camera2D/HUD.visible = false

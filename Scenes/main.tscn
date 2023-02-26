@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://b54q0tgp1p558"]
+[gd_scene load_steps=8 format=3 uid="uid://b54q0tgp1p558"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_nvtrj"]
 [ext_resource type="PackedScene" uid="uid://dq67lrylof2px" path="res://Scenes/player.tscn" id="2_hm3qx"]
 [ext_resource type="PackedScene" uid="uid://ckukvebdse6ab" path="res://Scenes/mainmenu.tscn" id="5_mq3oj"]
 [ext_resource type="PackedScene" uid="uid://dchc6pnichkp2" path="res://Scenes/enemy_manager.tscn" id="6_l1cjp"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_andm1"]
+keycode = 4194309
+
+[sub_resource type="InputEventKey" id="InputEventKey_y0x11"]
+keycode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_bsape"]
+events = [SubResource("InputEventKey_andm1"), SubResource("InputEventKey_y0x11")]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_nvtrj")
@@ -12,6 +21,9 @@ script = ExtResource("1_nvtrj")
 visible = false
 
 [node name="MainMenu" parent="." instance=ExtResource("5_mq3oj")]
+
+[node name="Start" parent="MainMenu" index="3"]
+shortcut = SubResource("Shortcut_bsape")
 
 [node name="EnemyManager" parent="." instance=ExtResource("6_l1cjp")]
 

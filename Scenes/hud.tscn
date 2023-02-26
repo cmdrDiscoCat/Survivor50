@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dnu3iery5prnu"]
 
 [node name="HUD" type="Control"]
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,7 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 1279.0
 offset_bottom = 27.0
+show_percentage = false
 
 [node name="Label" type="Label" parent="ProgressBar"]
 layout_mode = 1

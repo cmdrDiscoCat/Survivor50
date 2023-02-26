@@ -29,7 +29,7 @@ func _physics_process(delta):
 func damage(delta, amount=1):
     # we're taking damage if we're not dead
     if health > 0:
-        health -= delta * amount * 20
+        health -= delta * amount * 10
     # then we deal with the death and the loss of health
     if health < 1:
         alive = 0

@@ -57,6 +57,7 @@ offset_bottom = 52.0
 theme_override_font_sizes/font_size = 14
 step = 1.0
 value = 100.0
+show_percentage = false
 script = ExtResource("3_sfdmo")
 
 [node name="FPS" type="Label" parent="."]
@@ -67,7 +68,6 @@ offset_bottom = -302.0
 script = ExtResource("4_ysxya")
 
 [node name="BulletTimer" type="Timer" parent="."]
-wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
