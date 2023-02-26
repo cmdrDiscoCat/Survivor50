@@ -3,6 +3,7 @@ extends Node2D
 func start_game():
     $MainMenu.visible = false
     $Player.visible = true
+    $Player.alive = 1
     $Player.health = 100
     $Player/Health.value = 100
     $Player/Camera2D/HUD.visible = true
@@ -11,6 +12,7 @@ func start_game():
     
     
 func end_game():
+    
     $Player.global_position = Vector2.ZERO
     $Player.visible = false
     $Player/Camera2D/HUD.visible = false

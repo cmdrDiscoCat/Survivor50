@@ -5,11 +5,8 @@ var enemy = preload("res://Scenes/enemy.tscn")
 @onready var player = get_tree().get_root().get_node("Main/Player")
 @onready var player_position = player.global_position
 @onready var label_gameTimer = get_tree().get_root().get_node("Main/Player/Camera2D/HUD/ProgressBar/LblGameTimer")
-@onready var world = get_tree().get_root().get_node("Main/Map")
-@onready var world_x = world.texture.get_width()
-@onready var world_y = world.texture.get_height()
 
-const safe_range = 700
+const safe_range = 900
 const MAX_ENEMY_COUNT = 100
 var current_enemy_count
 
@@ -102,11 +99,39 @@ func spawn_enemy(number, type, health, speed, acceleration, attack, boss, force_
 
 
 func get_spawn_location():
-    var posx = randi_range(0 - world_x, world_x)
-    var posy = randi_range(0 - world_y, world_y)
+    # we refresh the player position to get the current one
+    player_position = player.global_position
+    # let's generate range above 
+    var min_left = player_position.x - safe_range * 1.1
+    var max_left = player_position.x - safe_range * 1.2
+    var min_right = player_position.x + safe_range * 1.1
+    var max_right = player_position.x + safe_range * 1.2
+    
+    var min_top = player_position.y - safe_range * 1.1
+    var max_top = player_position.y - safe_range * 1.2
+    var min_bottom = player_position.y + safe_range * 1.1
+    var max_bottom = player_position.y + safe_range * 1.2
+    
+    var left_or_right = randi_range(0,1)
+    var top_or_bottom = randi_range(0,1)
+    
+    var posx
+    var posy
+    if left_or_right == 1:
+        posx = randi_range(min_left, max_left)
+    else:
+        posx = randi_range(min_right, max_right)
+        
+    if top_or_bottom == 1:
+        posy = randi_range(min_top, max_top)
+    else:
+        posy = randi_range(min_bottom, max_bottom)
+    
     var spawn = Vector2(posx,posy)
-    var distance_x = posx - player_position.x
-    var distance_y = posy - player_position.y
-    if abs(distance_x) < safe_range or abs(distance_y) < safe_range : # if we are too close
-        spawn = get_spawn_location() # just get a new one instead
+    print("Player : ",player_position.x,",",player_position.y)
+    print("Enemy : ",posx,",",posy)
+    #var distance_x = posx - player_position.x
+    #var distance_y = posy - player_position.y
+    #if abs(distance_x) < safe_range or abs(distance_y) < safe_range : # if we are too close
+    #    spawn = get_spawn_location() # just get a new one instead
     return spawn

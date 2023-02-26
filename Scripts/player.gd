@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var health = 100
 @onready var healthBar = $Health
 
+var alive = 0
+
 signal death
 
 var bullet = preload("res://Scenes/bullet.tscn")
@@ -13,15 +15,16 @@ func get_input():
     velocity = input_direction * speed
 
 func _physics_process(delta):
-    # we manage the input
-    get_input()
-    # we handle the movement
-    move_and_slide()
+    if alive:
+        # we manage the input
+        get_input()
+        # we handle the movement
+        move_and_slide()
     
-    # If we're not full health, we're 
-    if health < 100 and health != 0:
-        health += delta
-        healthBar.value = health
+        # If we're not full health, we're taking damage
+        if health < 100 and health != 0:
+            health += delta
+            healthBar.value = health
 
 func damage(delta, amount=1):
     # we're taking damage if we're not dead
@@ -29,6 +32,7 @@ func damage(delta, amount=1):
         health -= delta * amount * 20
     # then we deal with the death and the loss of health
     if health < 1:
+        alive = 0
         print("Dead")
         emit_signal("death")
     else:

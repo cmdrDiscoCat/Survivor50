@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq67lrylof2px"]
+[gd_scene load_steps=8 format=3 uid="uid://dq67lrylof2px"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b4ytp"]
 [ext_resource type="Texture2D" uid="uid://c4xjxir63moge" path="res://Assets/cs50-duck.png" id="2_jvp4t"]
 [ext_resource type="PackedScene" uid="uid://dnu3iery5prnu" path="res://Scenes/hud.tscn" id="3_efmbu"]
+[ext_resource type="Texture2D" uid="uid://diui7i6o3ak7d" path="res://Assets/TileableBackGround.png" id="3_k5ajc"]
 [ext_resource type="Script" path="res://Scripts/Health.gd" id="3_sfdmo"]
 [ext_resource type="Script" path="res://Scripts/FPS.gd" id="4_ysxya"]
 
@@ -24,6 +25,18 @@ shape = SubResource("CapsuleShape2D_0njrb")
 debug_color = Color(0.760784, 0.356863, 0.72549, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Camera2D"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Camera2D/ParallaxBackground"]
+texture_repeat = 3
+motion_mirroring = Vector2(3122, 2406)
+
+[node name="Map" type="Sprite2D" parent="Camera2D/ParallaxBackground/ParallaxLayer"]
+texture_repeat = 1
+texture = ExtResource("3_k5ajc")
+region_enabled = true
+region_rect = Rect2(0, 0, 3122, 2406)
 
 [node name="HUD" parent="Camera2D" instance=ExtResource("3_efmbu")]
 anchors_preset = 0
