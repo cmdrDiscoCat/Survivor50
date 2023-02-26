@@ -15,7 +15,7 @@ offset_right = 1279.0
 offset_bottom = 27.0
 show_percentage = false
 
-[node name="Label" type="Label" parent="ProgressBar"]
+[node name="LblLevel" type="Label" parent="ProgressBar"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

@@ -3,12 +3,21 @@ extends CharacterBody2D
 @export var speed = 400
 @export var health = 100
 @onready var healthBar = $Health
+@onready var expBar = $Camera2D/HUD/ProgressBar
+@onready var lblLevel = $Camera2D/HUD/ProgressBar/LblLevel
 
 var alive = 0
+
+var experience = 0
+var player_level = 1
+var collected_experience = 0
 
 signal death
 
 var bullet = preload("res://Scenes/bullet.tscn")
+
+func _ready():
+    update_expBar(experience,get_level_cap())
 
 func get_input():
     var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -73,9 +82,56 @@ func spawn_bullet():
         this_bullet.global_position = global_position
         # then we tell it the direction its target was when it spawned
         this_bullet.set_direction(target)
+
+
+
+func _on_grab_area_area_entered(area):
+    if area.is_in_group("loot"):
+        # we got a gem !
+        area.target = self
         
+
+
+func _on_collect_area_area_entered(area):
+    if area.is_in_group("loot"):
+        var gem_experience = area.collect()
+        update_experience(gem_experience)
+        area.destroy()
+
+
+func update_experience(xp):
+    # we get how much xp is needed to level up with our current level
+    var exp_for_lvlup = get_level_cap()
+    collected_experience += xp
+    # if we have enough xp to level up
+    if experience + xp >= exp_for_lvlup:
+        collected_experience -= exp_for_lvlup - xp
+        player_level += 1
+        # update of the level
+        lblLevel.text = str("Level : ", player_level)
+        experience = 0
+        exp_for_lvlup = get_level_cap()
+        update_experience(0)
+    else:
+        experience += collected_experience
+        collected_experience = 0
     
-    
-    
+    update_expBar(experience,exp_for_lvlup)
     
 
+func get_level_cap():
+    var cap
+    
+    if player_level < 20:
+        cap = player_level * 3
+    elif player_level < 40:
+        cap = player_level * 15
+    else:
+        cap = player_level * 25
+        
+    return cap
+    
+    
+func update_expBar(value = 1, maximum = 100):
+    expBar.value = value
+    expBar.max_value = maximum

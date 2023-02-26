@@ -27,6 +27,8 @@ shortcut = SubResource("Shortcut_bsape")
 
 [node name="EnemyManager" parent="." instance=ExtResource("6_l1cjp")]
 
+[node name="Loot" type="Node" parent="." groups=["loot"]]
+
 [connection signal="death" from="Player" to="." method="end_game"]
 [connection signal="pressed" from="MainMenu/Start" to="." method="start_game"]
 

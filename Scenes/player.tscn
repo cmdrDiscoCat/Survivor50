@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dq67lrylof2px"]
+[gd_scene load_steps=10 format=3 uid="uid://dq67lrylof2px"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b4ytp"]
 [ext_resource type="Texture2D" uid="uid://c4xjxir63moge" path="res://Assets/cs50-duck.png" id="2_jvp4t"]
@@ -10,6 +10,12 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0njrb"]
 radius = 12.0
 height = 46.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lpxig"]
+radius = 182.069
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhxc2"]
+radius = 25.4951
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -70,4 +76,18 @@ script = ExtResource("4_ysxya")
 [node name="BulletTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="GrabArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea"]
+shape = SubResource("CircleShape2D_lpxig")
+
+[node name="CollectArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectArea"]
+shape = SubResource("CircleShape2D_uhxc2")
+
 [connection signal="timeout" from="BulletTimer" to="." method="_on_bullet_timer_timeout"]
+[connection signal="area_entered" from="GrabArea" to="." method="_on_grab_area_area_entered"]
+[connection signal="area_entered" from="CollectArea" to="." method="_on_collect_area_area_entered"]

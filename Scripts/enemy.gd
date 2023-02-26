@@ -6,6 +6,12 @@ var enemy_cs = preload("res://Assets/cs_logo.png")
 var enemy_css = preload("res://Assets/css_logo.png")
 var enemy_js = preload("res://Assets/js_logo.png")
 
+@export var experience = 1
+
+@onready var loot_node = get_tree().get_first_node_in_group("loot")
+
+var xp = preload("res://Scenes/experience_gem.tscn")
+
 var speed
 var ACCELERATION
 var health
@@ -19,12 +25,13 @@ func _ready():
     
 
 # we set values of the instance of this enemy
-func initialize(type, boss, h, s, a, d):
+func initialize(type, boss, h, s, a, expe, d):
     # initializing values
     speed = s
     ACCELERATION = a
     health = h
     attack = d
+    experience = expe
     # initializing texture
     if type == "c":
         $Sprite2D.texture = enemy_c
@@ -72,6 +79,10 @@ func damage(amount=10):
         health -= amount
     # then we deal with the death and the loss of health
     if health <= 0:
+        var new_xp = xp.instantiate()
+        new_xp.global_position = global_position
+        new_xp.experience = experience
+        loot_node.call_deferred("add_child",new_xp)
         queue_free()
 
 func get_player(target):

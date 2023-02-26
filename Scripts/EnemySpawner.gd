@@ -54,35 +54,35 @@ func _on_game_timer_timeout():
 func wave_manager():
     # we check the Game Timer, cause our logic for the spawn will depend on its value
     if game_timer < wave1_end:
-        spawn_enemy(1, "c",10,350,400,1,false,false)
+        spawn_enemy(1,"c",1,10,350,400,1,false,false)
     elif game_timer == wave1_end:
-        spawn_enemy(1, "c",40,250,400,3,true,true)
+        spawn_enemy(1,"c",5,40,250,400,3,true,true)
     elif game_timer > wave1_end and game_timer < wave2_end:
-        spawn_enemy(1, "cpp",30,350,400,2,false,false)
+        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
     elif game_timer == wave2_end:
-        spawn_enemy(1, "cpp",120,250,400,6,true,true)
+        spawn_enemy(1,"cpp",15,120,250,400,6,true,true)
     elif game_timer > wave2_end and game_timer < wave3_end:
-        spawn_enemy(1, "cs",50,350,400,3,false,false)
+        spawn_enemy(1,"cs",15,50,350,400,3,false,false)
     elif game_timer == wave3_end:
-        spawn_enemy(1, "cs",200,350,400,9,true,true)
+        spawn_enemy(1,"cs",25,200,350,400,9,true,true)
     elif game_timer > wave3_end and game_timer < wave4_end:
-        spawn_enemy(1, "css",70,350,400,4,false,false)
+        spawn_enemy(1,"css",25,70,350,400,4,false,false)
     elif game_timer == wave4_end:
-        spawn_enemy(1, "css",280,350,400,12,true,true)
+        spawn_enemy(1,"css",40,280,350,400,12,true,true)
     elif game_timer > wave4_end and game_timer < wave5_end:
-        spawn_enemy(1, "js",100,350,400,5,false,false)
+        spawn_enemy(1,"js",40,100,350,400,5,false,false)
     elif game_timer == wave5_end:
-        spawn_enemy(1, "js",400,350,400,15,true,true)
+        spawn_enemy(1,"js",60,400,350,400,15,true,true)
     else : 
-        spawn_enemy(1, "c",10,350,400,1,false,false)
-        spawn_enemy(1, "cpp",30,350,400,2,false,false)
-        spawn_enemy(1, "cs",50,350,400,3,false,false)
-        spawn_enemy(1, "css",70,350,400,4,false,false)
-        spawn_enemy(1, "js",100,350,400,5,false,false)
+        spawn_enemy(1,"c",1,10,350,400,1,false,false)
+        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
+        spawn_enemy(1,"cs",15,50,350,400,3,false,false)
+        spawn_enemy(1,"css",25,70,350,400,4,false,false)
+        spawn_enemy(1,"js",40,100,350,400,5,false,false)
     
 
 # function that spawn an enemy
-func spawn_enemy(number, type, health, speed, acceleration, attack, boss, force_spawn):
+func spawn_enemy(number, type, xp, health, speed, acceleration, attack, boss, force_spawn):
     current_enemy_count = get_tree().get_nodes_in_group("enemies").size()
     for n in range(number):
         if current_enemy_count < MAX_ENEMY_COUNT or force_spawn:             
@@ -91,7 +91,7 @@ func spawn_enemy(number, type, health, speed, acceleration, attack, boss, force_
             # we place it at a random valid spawn location
             this_enemy.global_position = get_spawn_location()
             # we look at the wave and the timer to determine spawn
-            this_enemy.initialize(type, boss, health, speed, acceleration, attack)
+            this_enemy.initialize(type, boss, health, speed, acceleration, xp, attack)
             # we set it as a child of main, not the player
             get_parent().add_child(this_enemy)
             # we give it the player reference
@@ -128,10 +128,4 @@ func get_spawn_location():
         posy = randi_range(min_bottom, max_bottom)
     
     var spawn = Vector2(posx,posy)
-    print("Player : ",player_position.x,",",player_position.y)
-    print("Enemy : ",posx,",",posy)
-    #var distance_x = posx - player_position.x
-    #var distance_y = posy - player_position.y
-    #if abs(distance_x) < safe_range or abs(distance_y) < safe_range : # if we are too close
-    #    spawn = get_spawn_location() # just get a new one instead
     return spawn

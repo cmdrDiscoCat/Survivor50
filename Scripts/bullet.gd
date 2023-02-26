@@ -17,7 +17,7 @@ func _process(delta):
             var body = collision.get_collider()
             if body.is_in_group("enemies"):
                 # we hit an enemy, so we use it's damage function
-                body.damage(10)
+                body.damage(100)
                 # then we delete the bullet
                 queue_free()
     
