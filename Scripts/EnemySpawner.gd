@@ -2,9 +2,9 @@ extends Node
 
 var enemy = preload("res://Scenes/enemy.tscn")
 
-@onready var player = get_tree().get_root().get_node("Main/Player")
+@onready var player = get_tree().get_first_node_in_group("player")
 @onready var player_position = player.global_position
-@onready var label_gameTimer = get_tree().get_root().get_node("Main/Player/Camera2D/HUD/ProgressBar/LblGameTimer")
+@onready var label_gameTimer = get_tree().get_root().get_node("Main/Player/HUD/GUI/LblGameTimer")
 
 const safe_range = 900
 const MAX_ENEMY_COUNT = 200

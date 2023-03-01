@@ -9,7 +9,7 @@ func start_game():
     $Player.player_level = 1
     $Player.collected_experience = 0
     $Player/Health.value = 100
-    $Player/Camera2D/HUD.visible = true
+    $Player/HUD.visible = true
     $Player/BulletTimer.start()
     $EnemyManager.start_timers()
     
@@ -17,7 +17,7 @@ func start_game():
 func end_game():
     $Player.global_position = Vector2.ZERO
     $Player.visible = false
-    $Player/Camera2D/HUD.visible = false
+    $Player/HUD.visible = false
     $Player/BulletTimer.stop()
     $EnemyManager.stop_timers()
     # destroy all remaining enemies

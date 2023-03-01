@@ -5,6 +5,9 @@ const ACCELERATION = 2000
 var direction = null
 var speed = 450
 
+var damage = 10
+var damage_multiplier = 1
+
 func _process(delta):
     # if we found an enemy to shoot to
     if direction != null:
@@ -17,7 +20,7 @@ func _process(delta):
             var body = collision.get_collider()
             if body.is_in_group("enemies"):
                 # we hit an enemy, so we use it's damage function
-                body.damage(100)
+                body.damage(damage * damage_multiplier)
                 # then we delete the bullet
                 queue_free()
     
@@ -26,6 +29,8 @@ func _process(delta):
 func _on_visible_on_screen_notifier_2d_screen_exited():
     queue_free()
 
+func set_damage_multiplier(value):
+    damage_multiplier = value
 
 func set_direction(target):
     direction = target
