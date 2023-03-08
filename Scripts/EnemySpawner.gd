@@ -12,11 +12,11 @@ var current_enemy_count
 
 var game_timer = 0
 
-var wave1_end = 20
-var wave2_end = 40
-var wave3_end = 60
-var wave4_end = 80
-var wave5_end = 100
+var wave1_end = 120
+var wave2_end = 240
+var wave3_end = 360
+var wave4_end = 480
+var wave5_end = 600
 
 var wave = 1
 
@@ -44,7 +44,7 @@ func _on_enemy_timer_timeout():
 func _on_game_timer_timeout():
     # each second we add to the game timer and we update the label
     game_timer += 1
-    var minutes = game_timer/60
+    var minutes = round(game_timer/60.0)
     var seconds = game_timer - minutes*60
     var timer_str = str(minutes,":","%02d"%seconds)
     label_gameTimer.set_text(timer_str)
@@ -54,7 +54,7 @@ func _on_game_timer_timeout():
 func wave_manager():
     # we check the Game Timer, cause our logic for the spawn will depend on its value
     if game_timer < wave1_end:
-        spawn_enemy(1,"c",1,10,350,400,1,false,false)
+        spawn_enemy(1,"c",1000,10,350,400,1,false,false)
     elif game_timer == wave1_end:
         spawn_enemy(1,"c",5,40,250,400,3,true,true)
     elif game_timer > wave1_end and game_timer < wave2_end:

@@ -11,11 +11,13 @@ var speed = 400
 var speed_multiplier = 1 
 var health = 100
 var health_max = 100
+var attack_speed = 2
 # godot weapon (the default for now)
-var godot_damage_multiplier = 10
-var godot_speed = 2
-var godot_scale = 1
-var godot_instances = 1
+var godot_damage_multiplier = 1
+var godot_speed = 1
+var godot_scale =.5
+var godot_base_instances = 1
+var godot_instances = 0
 var godot_level = 0
 # regen
 var health_recovery = 0.02
@@ -29,11 +31,16 @@ var bullet = preload("res://Scenes/bullet.tscn")
 @onready var lblLevel = $HUD/GUI/ProgressBar/LblLevel
 # Bullet timer
 @onready var bulletTimer = $BulletTimer
+@onready var bulletAttackTimer = $BulletTimer/BulletAttackTimer
 
 # level up ui
 @onready var levelUpPanel = $HUD/GUI/LevelUpPanel
 @onready var levelUpOptions = $HUD/GUI/LevelUpPanel/LevelUpOptions
 @onready var itemOptions = preload("res://Scenes/upgrade_option.tscn")
+
+# debug label with the collected upgrades and xp
+@onready var lblUpgrades = $HUD/GUI/LblUpgrades
+@onready var lblTrackXp = $HUD/GUI/ProgressBar/LblTrackXp
 
 # Upgrade
 var collected_upgrades = []
@@ -47,7 +54,7 @@ signal death
 func _ready():
     # we set the Bullet time to the godot_speed value for now
     # later on, we'll have one Timer per weapon
-    bulletTimer.wait_time = godot_speed
+    bulletTimer.wait_time = attack_speed
     update_expBar(experience,get_level_cap())
 
 func get_input():
@@ -79,56 +86,74 @@ func damage(delta, amount=1):
         healthBar.value = health
 
 
-func _on_bullet_timer_timeout():    
-    spawn_bullet()
-
-
-func spawn_bullet():
-    var closest = INF
-    var closest_enemy = null
-    # we determine a target if we can, else we don't spawn bullets
-    # we get all the enemies
-    var enemies = get_tree().get_nodes_in_group("enemies")
-    # for all those enemies
-    for enemy in enemies:
-        # we get the distance to the bullet cause it's spawned below the player
-        var enemy_distance = position.distance_to(enemy.position)
-        # if it's smaller than the closest we've seen so far (default INF)
-        if enemy_distance < closest:
-            # it becomes our closest
-            closest = enemy_distance
-            closest_enemy = enemy
-        
-    # at the end of the loop we have our closest enemy
-    # we calculate the direction we'll use for the bullet's movement
-    if closest_enemy != null:
-        # we get the direction of the target by substracting the positions
-        # Vectors, right ? :D
-        var target = (closest_enemy.global_position - global_position).normalized()
-        # we instanciate a bullet
-        var this_bullet = bullet.instantiate()
-        # we set it as a child of main, not the player
-        get_parent().add_child(this_bullet)
-        # we place it where the player is
-        this_bullet.global_position = global_position
-        # then we tell it its damage and the direction its target was when it spawned
-        this_bullet.set_damage_multiplier(godot_damage_multiplier)
-        this_bullet.set_direction(target)
-
-
+func _on_bullet_timer_timeout():
+    # on each bullet timer tick, we can fire godot_base_instances bullets
+    godot_instances = godot_base_instances
+    # we start the timer to shoot the first bullet
+    bulletAttackTimer.start()
 
 func _on_grab_area_area_entered(area):
     if area.is_in_group("loot"):
-        # we got a gem !
+        # we got a gem so it has to move towards us, we set its target to us !
         area.target = self
         
 
 
 func _on_collect_area_area_entered(area):
+    # if a gem from the loot layer is in the collect area
     if area.is_in_group("loot"):
+        # we grab it
         var gem_experience = area.collect()
+        # we call our function to update our xp
         update_experience(gem_experience)
+        # we delete the gem
         area.destroy()
+
+
+func _on_bullet_attack_timer_timeout():
+    # on each timeout of that timer, we fire a bullet
+    # if we still haven't fired all the bullets we can via our upgrades to godot_base_instances
+    if godot_instances > 0:
+        var closest = INF
+        var closest_enemy = null
+        # we determine a target if we can, else we don't spawn bullets
+        # we get all the enemies
+        var enemies = get_tree().get_nodes_in_group("enemies")
+        # for all those enemies
+        for enemy in enemies:
+            # we get the distance to the bullet cause it's spawned below the player
+            var enemy_distance = position.distance_to(enemy.position)
+            # if it's smaller than the closest we've seen so far (default INF)
+            if enemy_distance < closest:
+                # it becomes our closest
+                closest = enemy_distance
+                closest_enemy = enemy
+            
+        # at the end of the loop we have our closest enemy
+        # we calculate the direction we'll use for the bullet's movement
+        if closest_enemy != null:
+            # we get the direction of the target by substracting the positions
+            # Vectors, right ? :D
+            var target = (closest_enemy.global_position - global_position).normalized()
+            # we instanciate a bullet
+            var this_bullet = bullet.instantiate()
+            # we set it as a child of main, not the player
+            get_parent().add_child(this_bullet)
+            # we place it where the player is
+            this_bullet.global_position = global_position
+            # then we tell it its damage and the direction its target was when it spawned
+            this_bullet.set_damage_multiplier(godot_damage_multiplier)
+            this_bullet.set_speed_multiplier(godot_speed)
+            this_bullet.change_scale(godot_scale)
+            this_bullet.set_direction(target)
+        godot_instances -= 1
+    
+        if godot_instances > 0:
+            # if we can still fire, we restart the attack timer to fire the next bullet
+            bulletAttackTimer.start()
+        else:
+            # we used up our bullet, they'll replenish on the next BulletTimer tick
+            bulletAttackTimer.stop()
 
 
 func update_experience(xp):
@@ -136,8 +161,8 @@ func update_experience(xp):
     var exp_for_lvlup = get_level_cap()
     collected_experience += xp
     # if we have enough xp to level up
-    if experience + xp >= exp_for_lvlup:
-        collected_experience -= exp_for_lvlup - xp
+    if experience + collected_experience >= exp_for_lvlup:
+        collected_experience -= exp_for_lvlup
         player_level += 1
         experience = 0
         exp_for_lvlup = get_level_cap()
@@ -145,6 +170,8 @@ func update_experience(xp):
     else:
         experience += collected_experience
         collected_experience = 0
+        if experience < 0:
+            experience = 0
     # we update the xp bar
     update_expBar(experience,exp_for_lvlup)
     
@@ -163,11 +190,17 @@ func get_level_cap():
     
     
 func update_expBar(value = 1, maximum = 100):
+    # we update the experience bar... and our debug label
     expBar.value = value
     expBar.max_value = maximum
+    # we update the xp label
+    lblTrackXp.text = "XP : "+str(experience)+" / "+str(get_level_cap())+"\n"
 
 
 func level_up():
+    # before anything else, the player gets 10 more max hp
+    health_max += 10
+    
     # update of the level
     lblLevel.text = str("Level : ", player_level)
     levelUpPanel.visible = true
@@ -183,6 +216,93 @@ func level_up():
     get_tree().paused = true
 
 func upgrade_player(upgrade):
+    # match upgrade to actually do the things related to them
+    match upgrade:
+        "speed1":
+            speed_multiplier += 0.05
+        "speed2":
+            speed_multiplier += 0.05
+        "speed3":
+            speed_multiplier += 0.05
+        "speed4":
+            speed_multiplier += 0.05
+        "speed5":
+            speed_multiplier += 0.05
+        "speed6":
+            speed_multiplier += 0.05
+        "speed7":
+            speed_multiplier += 0.05
+        "speed8":
+            speed_multiplier += 0.05
+        "godot1":
+            godot_speed += 1
+            godot_scale += .1
+        "godot2":
+            godot_speed += 1
+            godot_scale += .1
+        "godot3":
+            godot_speed += 1
+            godot_scale += .1
+        "godot4":
+            godot_speed += 1
+            godot_scale += .1
+        "godot5":
+            godot_speed += 1
+            godot_scale += .1
+        "godot6":
+            godot_speed += 1
+            godot_scale += .1
+        "godot7":
+            godot_speed += 1
+            godot_scale += .1
+        "godot8":
+            godot_speed += 1
+            godot_scale += .1
+        "attack_damage1":
+            godot_damage_multiplier += 1
+        "attack_damage2":
+            godot_damage_multiplier += 1
+        "attack_damage3":
+            godot_damage_multiplier += 1
+        "attack_damage4":
+            godot_damage_multiplier += 1
+        "attack_damage5":
+            godot_damage_multiplier += 1
+        "attack_damage6":
+            godot_damage_multiplier += 1
+        "attack_damage7":
+            godot_damage_multiplier += 1
+        "attack_damage8":
+            godot_damage_multiplier += 1
+        "attack_speed1":
+            attack_speed -= .2
+        "attack_speed2":
+            attack_speed -= .2
+        "attack_speed3":
+            attack_speed -= .2
+        "attack_speed4":
+            attack_speed -= .2
+        "attack_speed5":
+            attack_speed -= .2
+        "attack_speed6":
+            attack_speed -= .2
+        "attack_speed7":
+            attack_speed -= .2
+        "attack_speed8":
+            attack_speed -= .2
+        "projectiles1":
+            godot_base_instances += 1
+        "projectiles2":
+            godot_base_instances += 1
+        "projectiles3":
+            godot_base_instances += 1
+        "projectiles4":
+            godot_base_instances += 1
+    
+    # we handle the changes that needs logic like changing the attack speed
+    bulletTimer.wait_time = attack_speed
+    
+    
     var option_children = levelUpOptions.get_children()
     for i in option_children:
         i.queue_free()
@@ -191,6 +311,12 @@ func upgrade_player(upgrade):
     levelUpPanel.visible = false
     get_tree().paused = false
     update_experience(0)
+    
+    # we refresh the lbl with the upgrades we have
+    lblUpgrades.text = ""
+    collected_upgrades.sort()
+    for upg in collected_upgrades:
+        lblUpgrades.text += upg+"\n" 
 
 
 func get_random_upgrade():

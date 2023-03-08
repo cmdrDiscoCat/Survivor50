@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_d4gdq"]
 [ext_resource type="Texture2D" uid="uid://c1km2x643tea3" path="res://Assets/js_logo.png" id="1_gm1v8"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8vs0"]
-size = Vector2(32, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_lj5y2"]
+radius = 16.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
-collision_layer = 30
-collision_mask = 2
+collision_layer = 16
+collision_mask = 18
 script = ExtResource("1_d4gdq")
 metadata/_edit_group_ = true
 
@@ -17,4 +17,4 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_gm1v8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_s8vs0")
+shape = SubResource("CircleShape2D_lj5y2")
