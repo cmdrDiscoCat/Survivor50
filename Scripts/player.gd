@@ -20,7 +20,7 @@ var godot_base_instances = 1
 var godot_instances = 0
 var godot_level = 0
 # regen
-var health_recovery = 0.02
+var health_recovery = 0.01
 
 # attacks (only godot so far)
 var bullet = preload("res://Scenes/bullet.tscn")
@@ -68,7 +68,7 @@ func _physics_process(_delta):
         # we handle the movement
         move_and_slide()
     
-        # If we're not full health, we're taking damage
+        # If we're not full health, we're healing
         if health < health_max and health != 0:
             health += health_recovery
             healthBar.value = health
@@ -76,6 +76,7 @@ func _physics_process(_delta):
 func damage(delta, amount=1):
     # we're taking damage if we're not dead
     if health > 0:
+        print("Taking damage")
         health -= delta * amount * 10
     # then we deal with the death and the loss of health
     if health < 1:

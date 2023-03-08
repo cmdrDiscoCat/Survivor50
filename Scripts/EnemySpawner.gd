@@ -44,7 +44,7 @@ func _on_enemy_timer_timeout():
 func _on_game_timer_timeout():
     # each second we add to the game timer and we update the label
     game_timer += 1
-    var minutes = round(game_timer/60.0)
+    var minutes = game_timer/60
     var seconds = game_timer - minutes*60
     var timer_str = str(minutes,":","%02d"%seconds)
     label_gameTimer.set_text(timer_str)
@@ -54,7 +54,7 @@ func _on_game_timer_timeout():
 func wave_manager():
     # we check the Game Timer, cause our logic for the spawn will depend on its value
     if game_timer < wave1_end:
-        spawn_enemy(1,"c",1000,10,350,400,1,false,false)
+        spawn_enemy(1,"c",1,10,350,400,1,false,false)
     elif game_timer == wave1_end:
         spawn_enemy(1,"c",5,40,250,400,3,true,true)
     elif game_timer > wave1_end and game_timer < wave2_end:
@@ -74,9 +74,9 @@ func wave_manager():
     elif game_timer == wave5_end:
         spawn_enemy(1,"js",60,400,350,400,15,true,true)
     else : 
-        spawn_enemy(1,"c",1,10,350,400,1,false,false)
-        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
-        spawn_enemy(1,"cs",15,50,350,400,3,false,false)
+        spawn_enemy(3,"c",1,10,350,400,1,false,false)
+        spawn_enemy(2,"cpp",5,30,350,400,2,false,false)
+        spawn_enemy(2,"cs",15,50,350,400,3,false,false)
         spawn_enemy(1,"css",25,70,350,400,4,false,false)
         spawn_enemy(1,"js",40,100,350,400,5,false,false)
     

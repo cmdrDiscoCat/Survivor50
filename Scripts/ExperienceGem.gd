@@ -31,7 +31,6 @@ func _physics_process(delta):
 func collect():
     collision.call_deferred("set","disabled", true)
     sprite.visible = false
-    print("Got: ", experience, " xp")
     return experience
 
 func destroy():
