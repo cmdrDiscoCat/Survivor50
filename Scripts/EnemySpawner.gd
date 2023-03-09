@@ -7,7 +7,7 @@ var enemy = preload("res://Scenes/enemy.tscn")
 @onready var label_gameTimer = get_tree().get_root().get_node("Main/Player/HUD/GUI/LblGameTimer")
 
 const safe_range = 900
-const MAX_ENEMY_COUNT = 200
+var max_enemy_count = 200
 var current_enemy_count
 
 var game_timer = 0
@@ -58,22 +58,37 @@ func wave_manager():
     elif game_timer == wave1_end:
         spawn_enemy(1,"c",5,40,250,400,3,true,true)
     elif game_timer > wave1_end and game_timer < wave2_end:
+        max_enemy_count += 50
+        spawn_enemy(1,"c",3,10,350,400,1,false,false)
         spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
     elif game_timer == wave2_end:
         spawn_enemy(1,"cpp",15,120,250,400,6,true,true)
     elif game_timer > wave2_end and game_timer < wave3_end:
+        max_enemy_count += 50
+        spawn_enemy(1,"c",3,10,350,400,1,false,false)
+        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
         spawn_enemy(1,"cs",15,50,350,400,3,false,false)
     elif game_timer == wave3_end:
         spawn_enemy(1,"cs",25,200,350,400,9,true,true)
     elif game_timer > wave3_end and game_timer < wave4_end:
+        max_enemy_count += 50
+        spawn_enemy(1,"c",3,10,350,400,1,false,false)
+        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
+        spawn_enemy(1,"cs",15,50,350,400,3,false,false)
         spawn_enemy(1,"css",25,70,350,400,4,false,false)
     elif game_timer == wave4_end:
         spawn_enemy(1,"css",40,280,350,400,12,true,true)
     elif game_timer > wave4_end and game_timer < wave5_end:
+        max_enemy_count += 50
+        spawn_enemy(1,"c",3,10,350,400,1,false,false)
+        spawn_enemy(1,"cpp",5,30,350,400,2,false,false)
+        spawn_enemy(1,"cs",15,50,350,400,3,false,false)
+        spawn_enemy(1,"css",25,70,350,400,4,false,false)
         spawn_enemy(1,"js",40,100,350,400,5,false,false)
     elif game_timer == wave5_end:
         spawn_enemy(1,"js",60,400,350,400,15,true,true)
-    else : 
+    else:
+        max_enemy_count += 200 
         spawn_enemy(3,"c",1,10,350,400,1,false,false)
         spawn_enemy(2,"cpp",5,30,350,400,2,false,false)
         spawn_enemy(2,"cs",15,50,350,400,3,false,false)
@@ -85,7 +100,7 @@ func wave_manager():
 func spawn_enemy(number, type, xp, health, speed, acceleration, attack, boss, force_spawn):
     current_enemy_count = get_tree().get_nodes_in_group("enemies").size()
     for n in range(number):
-        if current_enemy_count < MAX_ENEMY_COUNT or force_spawn:             
+        if current_enemy_count < max_enemy_count or force_spawn:             
             # we instanciate an enemy of this type
             var this_enemy = enemy.instantiate()
             # we place it at a random valid spawn location
@@ -101,31 +116,7 @@ func spawn_enemy(number, type, xp, health, speed, acceleration, attack, boss, fo
 func get_spawn_location():
     # we refresh the player position to get the current one
     player_position = player.global_position
-    # let's generate range above 
-    var min_left = player_position.x - safe_range * 1.1
-    var max_left = player_position.x - safe_range * 1.2
-    var min_right = player_position.x + safe_range * 1.1
-    var max_right = player_position.x + safe_range * 1.2
-    
-    var min_top = player_position.y - safe_range * 1.1
-    var max_top = player_position.y - safe_range * 1.2
-    var min_bottom = player_position.y + safe_range * 1.1
-    var max_bottom = player_position.y + safe_range * 1.2
-    
-    var left_or_right = randi_range(0,1)
-    var top_or_bottom = randi_range(0,1)
-    
-    var posx
-    var posy
-    if left_or_right == 1:
-        posx = randi_range(min_left, max_left)
-    else:
-        posx = randi_range(min_right, max_right)
-        
-    if top_or_bottom == 1:
-        posy = randi_range(min_top, max_top)
-    else:
-        posy = randi_range(min_bottom, max_bottom)
-    
-    var spawn = Vector2(posx,posy)
+    # we generate a spawn location at the safe_range, with a random rotation
+    # so enemy will come from all sides !
+    var spawn = player.position + Vector2(safe_range, 0).rotated(randf_range(0, 2*PI))
     return spawn

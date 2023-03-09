@@ -25,6 +25,11 @@ func end_game():
     if len(enemies) > 0:
         for the_enemy in enemies:
             the_enemy.queue_free()
+    # destroy all remaining loot
+    var loots = get_tree().get_nodes_in_group("loot")
+    if len(loots) > 0:
+        for a_loot in loots:
+            a_loot.queue_free()
         
     $MainMenu.visible = true
     
