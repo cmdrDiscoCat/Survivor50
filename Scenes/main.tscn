@@ -45,7 +45,6 @@ stream = ExtResource("6_y5vyj")
 volume_db = -20.0
 
 [node name="PlayerDeath" type="AudioStreamPlayer" parent="Music"]
-process_mode = 2
 stream = ExtResource("7_h17m6")
 volume_db = -10.0
 

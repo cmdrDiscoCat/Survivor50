@@ -27,11 +27,10 @@ func death_jingle():
     music_game.stop()
     player_death.play()
     end_game()
-    get_tree().paused = true
+    
     
 func _on_player_death_finished():
     player_death.stop()
-    get_tree().paused = false
     music_menu.play()
     
     
