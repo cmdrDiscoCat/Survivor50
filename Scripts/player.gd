@@ -25,6 +25,9 @@ var health_recovery = 0.01
 # attacks (only godot so far)
 var bullet = preload("res://Scenes/bullet.tscn")
 
+# sound for shooting
+@onready var shoot = $Shoot
+
 # health, level and xp bar
 @onready var healthBar = $Health
 @onready var expBar = $HUD/GUI/ProgressBar
@@ -138,6 +141,8 @@ func _on_bullet_attack_timer_timeout():
             var target = (closest_enemy.global_position - global_position).normalized()
             # we instanciate a bullet
             var this_bullet = bullet.instantiate()
+            # we play the shoot sound
+            shoot.play()
             # we set it as a child of main, not the player
             get_parent().add_child(this_bullet)
             # we place it where the player is

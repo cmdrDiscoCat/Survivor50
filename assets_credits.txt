@@ -1,0 +1,5 @@
+Gem icons and sound effects from Kenney (kenney.nl) under CC0 licence
+Music from Kevin Mc Leod ("Neon Laser Horizon" for the main menu, "Raving Energy (faster)" in game)
+Langages logos are the property of their respectives owners
+The Godot logo is under CC-BY licence, and was created by Andrea Calabró.
+Explosion spritesheet by Cuzco under CC0 licence.

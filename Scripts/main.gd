@@ -1,6 +1,16 @@
 extends Node2D
 
+@onready var music_menu = $Music/Menu
+@onready var music_game = $Music/Game
+@onready var player_death = $Music/PlayerDeath
+
+func _ready():
+    music_menu.play()
+    
+
 func start_game():
+    music_menu.stop()
+    music_game.play()
     $MainMenu.visible = false
     $Player.visible = true
     $Player.alive = 1
@@ -12,6 +22,17 @@ func start_game():
     $Player/HUD.visible = true
     $Player/BulletTimer.start()
     $EnemyManager.start_timers()
+
+func death_jingle():
+    music_game.stop()
+    player_death.play()
+    end_game()
+    get_tree().paused = true
+    
+func _on_player_death_finished():
+    player_death.stop()
+    get_tree().paused = false
+    music_menu.play()
     
     
 func end_game():
@@ -30,7 +51,10 @@ func end_game():
     if len(loots) > 0:
         for a_loot in loots:
             a_loot.queue_free()
-        
+    
+    # we display the main menu again
+    
+    
     $MainMenu.visible = true
     
 

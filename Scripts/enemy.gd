@@ -9,6 +9,9 @@ var enemy_js = preload("res://Assets/js_logo.png")
 @export var experience = 1
 
 @onready var loot_node = get_tree().get_first_node_in_group("loot")
+@onready var sound_hit = $Hit
+
+var explosion_scene = preload("res://Scenes/explosion.tscn")
 
 var xp = preload("res://Scenes/experience_gem.tscn")
 
@@ -72,18 +75,32 @@ func _process(delta):
                 #we hit the player, so we use it's damage function
                 body.damage(delta,attack)
 
+func death():
+    # we create the explosion scene that will play an explosion animation and a death sound
+    var enemy_death = explosion_scene.instantiate()
+    enemy_death.scale = $Sprite2D.scale
+    enemy_death.global_position = global_position
+    get_parent().call_deferred("add_child",enemy_death)
+    # we spawn the gem
+    var new_xp = xp.instantiate()
+    new_xp.global_position = global_position
+    new_xp.experience = experience
+    loot_node.call_deferred("add_child",new_xp)
+    # we delete the enemy
+    queue_free()
+
 
 func damage(amount=10):
-    # we're taking damage if we're not dead
+    # we're taking damage if we're not dead, so let's play a hit sound
+    sound_hit.play()
+    # we check if we're dead or not
     if health > 0:
         health -= amount
     # then we deal with the death and the loss of health
     if health <= 0:
-        var new_xp = xp.instantiate()
-        new_xp.global_position = global_position
-        new_xp.experience = experience
-        loot_node.call_deferred("add_child",new_xp)
-        queue_free()
+        death()
+        
+
 
 func get_player(target):
     player = target

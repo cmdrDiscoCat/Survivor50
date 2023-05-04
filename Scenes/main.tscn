@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://b54q0tgp1p558"]
+[gd_scene load_steps=11 format=3 uid="uid://b54q0tgp1p558"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_nvtrj"]
 [ext_resource type="PackedScene" uid="uid://dq67lrylof2px" path="res://Scenes/player.tscn" id="2_hm3qx"]
 [ext_resource type="PackedScene" uid="uid://ckukvebdse6ab" path="res://Scenes/mainmenu.tscn" id="5_mq3oj"]
+[ext_resource type="AudioStream" uid="uid://bx3dtldhq6a6" path="res://Assets/audio/Music Main Menu.mp3" id="5_qjc5p"]
 [ext_resource type="PackedScene" uid="uid://dchc6pnichkp2" path="res://Scenes/enemy_manager.tscn" id="6_l1cjp"]
+[ext_resource type="AudioStream" uid="uid://btd5aourn8yhh" path="res://Assets/audio/Music Game.mp3" id="6_y5vyj"]
+[ext_resource type="AudioStream" uid="uid://dtyrfkgspr0i5" path="res://Assets/audio/player_death.ogg" id="7_h17m6"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_andm1"]
 keycode = 4194309
@@ -29,7 +32,25 @@ shortcut = SubResource("Shortcut_bsape")
 
 [node name="Loot" type="Node" parent="." groups=["loot"]]
 
-[connection signal="death" from="Player" to="." method="end_game"]
+[node name="Music" type="Node" parent="."]
+
+[node name="Menu" type="AudioStreamPlayer" parent="Music"]
+process_mode = 3
+stream = ExtResource("5_qjc5p")
+volume_db = -20.0
+
+[node name="Game" type="AudioStreamPlayer" parent="Music"]
+process_mode = 3
+stream = ExtResource("6_y5vyj")
+volume_db = -20.0
+
+[node name="PlayerDeath" type="AudioStreamPlayer" parent="Music"]
+process_mode = 2
+stream = ExtResource("7_h17m6")
+volume_db = -10.0
+
+[connection signal="death" from="Player" to="." method="death_jingle"]
 [connection signal="pressed" from="MainMenu/Start" to="." method="start_game"]
+[connection signal="finished" from="Music/PlayerDeath" to="." method="_on_player_death_finished"]
 
 [editable path="MainMenu"]

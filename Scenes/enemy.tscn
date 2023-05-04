@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwq0px25qxbta"]
+[gd_scene load_steps=5 format=3 uid="uid://bwq0px25qxbta"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_d4gdq"]
 [ext_resource type="Texture2D" uid="uid://c1km2x643tea3" path="res://Assets/js_logo.png" id="1_gm1v8"]
+[ext_resource type="AudioStream" uid="uid://daeicn5jfndr6" path="res://Assets/audio/enemy_hit.ogg" id="3_5lnyi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lj5y2"]
 radius = 16.0
@@ -18,3 +19,7 @@ texture = ExtResource("1_gm1v8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lj5y2")
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_5lnyi")
+volume_db = -10.0
