@@ -67,56 +67,56 @@ const UPGRADES = {
 	},
 	"attack_damage1": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 1",
 		"requirements" : []
 	},
 	"attack_damage2": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 2",
 		"requirements" : ["attack_damage1"]
 	},
 	"attack_damage3": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 3",
 		"requirements" : ["attack_damage2"]
 	},
 	"attack_damage4": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 4",
 		"requirements" : ["attack_damage3"]
 	},
 	"attack_damage5": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 5",
 		"requirements" : ["attack_damage4"]
 	},
 	"attack_damage6": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 6",
 		"requirements" : ["attack_damage5"]
 	},
 	"attack_damage7": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 7",
 		"requirements" : ["attack_damage6"]
 	},
 	"attack_damage8": {
 		"icon": ICON_PATH + "attack_damage.png",
-		"name" : "Damage",
+		"name" : "Attack damage",
 		"description" : "Additional damage",
 		"level" : "Level 8",
 		"requirements" : ["attack_damage7"]

@@ -24,11 +24,11 @@ var health_recovery = 0.01
 
 var my_upgrades = {
 		"debug":0,
-		"speed":0,
-		"godot":0,
 		"damage":0,
 		"attack speed":0,
+		"godot":0,
 		"projectiles":0,
+		"speed":0,
 	}
 
 # attacks (only godot so far)
@@ -341,6 +341,7 @@ func upgrade_player(upgrade):
 		# we add +1 to the corresponding type of upgrade each time we see an upgrade of that name
 		var the_upgrade = Upgrades.UPGRADES[upg]["name"].to_lower()
 		my_upgrades[the_upgrade] += 1
+	
 	
 	for my_upgrade in my_upgrades.keys():
 		if my_upgrades[my_upgrade] != 0:

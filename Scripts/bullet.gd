@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
-const ACCELERATION = 1
+const ACCELERATION = 2000
 
 @onready var sprite = $Sprite2D
 @onready var collisionshape = $CollisionShape2D
 
 var direction = null
-var speed = 750
+var speed = 450
 var speed_multiplier = 1
 var damage = 10
 var damage_multiplier = 1
