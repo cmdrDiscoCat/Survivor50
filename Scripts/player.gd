@@ -24,7 +24,7 @@ var health_recovery = 0.01
 
 var my_upgrades = {
 		"debug":0,
-		"damage":0,
+		"attack damage":0,
 		"attack speed":0,
 		"godot":0,
 		"projectiles":0,
