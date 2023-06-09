@@ -14,24 +14,24 @@ var speed = -3
 @onready var collision = $CollisionShape2D
 
 func _ready():
-    if experience < 10:
-        return
-    elif experience < 25:
-        sprite.texture = yellow
-    elif experience < 40:
-        sprite.texture = red
-    else:
-        sprite.texture = purple
-        
+	if experience < 10:
+		return
+	elif experience < 25:
+		sprite.texture = yellow
+	elif experience < 40:
+		sprite.texture = red
+	else:
+		sprite.texture = purple
+		
 func _physics_process(delta):
-    if target != null:
-        global_position = global_position.move_toward(target.global_position, speed)
-        speed += delta*15
+	if target != null:
+		global_position = global_position.move_toward(target.global_position, speed)
+		speed += delta*15
 
 func collect():
-    collision.call_deferred("set","disabled", true)
-    sprite.visible = false
-    return experience
+	collision.call_deferred("set","disabled", true)
+	sprite.visible = false
+	return experience
 
 func destroy():
-    queue_free()
+	queue_free()
