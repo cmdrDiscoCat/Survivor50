@@ -16,6 +16,7 @@ func start_game():
 	$Player.alive = 1
 	$Player.health = 100
 	$Player.experience = 0
+	$Player.update_experience(0)
 	$Player.player_level = 1
 	$Player.collected_experience = 0
 	$Player/Health.value = 100
@@ -40,6 +41,13 @@ func end_game():
 	$Player/HUD.visible = false
 	$Player/BulletTimer.stop()
 	$EnemyManager.stop_timers()
+	# we reset all the xp/level 
+	$Player.health = 100
+	$Player.experience = 0
+	$Player.player_level = 1
+	$Player.collected_experience = 0
+	$Player/Health.value = 100
+	
 	# destroy all remaining enemies
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	if len(enemies) > 0:

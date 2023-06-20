@@ -82,7 +82,8 @@ func _physics_process(_delta):
 	
 		# If we're not full health, we're healing
 		if health < health_max and health != 0:
-			health += health_recovery
+			if health + health_recovery < health_max:
+				health += health_recovery
 			healthBar.value = health
 
 func damage(delta, amount=1):
@@ -93,7 +94,7 @@ func damage(delta, amount=1):
 	# then we deal with the death and the loss of health
 	if health < 1:
 		alive = 0
-		reset_upgrades()
+		reset_player_data()
 		print("Dead")
 		emit_signal("death")
 	else:
@@ -219,7 +220,7 @@ func level_up():
 	health_max += 10
 	
 	# update of the level
-	lblLevel.text = str("Level : ", player_level)
+	refresh_displayed_level()
 	levelUpPanel.visible = true
 	var options = 0
 	var optionsMax = 3
@@ -328,7 +329,16 @@ func upgrade_player(upgrade):
 	levelUpPanel.visible = false
 	get_tree().paused = false
 	update_experience(0)
+	refresh_displayed_upgrades()
 	
+
+
+func reset_upgrades():
+	for upgr in my_upgrades:
+		my_upgrades[upgr] = 0
+
+
+func refresh_displayed_upgrades():
 	# we refresh the lbl with the upgrades we have, so we reset everything to refresh the counts
 	lblUpgrades.text = ""
 	
@@ -346,12 +356,10 @@ func upgrade_player(upgrade):
 	for my_upgrade in my_upgrades.keys():
 		if my_upgrades[my_upgrade] != 0:
 			lblUpgrades.text += my_upgrade.capitalize()+" : Level "+str(my_upgrades[my_upgrade])+"\n" 
+	
 
-
-func reset_upgrades():
-	for upgr in my_upgrades:
-		my_upgrades[upgr] = 0
-
+func refresh_displayed_level():
+	lblLevel.text = str("Level : ", player_level)
 
 func get_random_upgrade():
 	var upgradelist = []
@@ -377,3 +385,47 @@ func get_random_upgrade():
 		return randomitem
 	else:
 		return null
+		
+func reset_player_data():
+	# Utility variales
+	alive = 0
+	experience = 0
+	player_level = 1
+	collected_experience = 0
+
+	# player stats
+	speed = 400
+	speed_multiplier = 1 
+	health = 100
+	health_max = 100
+	attack_speed = 2
+	# godot weapon (the default for now)
+	godot_damage_multiplier = 1
+	godot_speed = 1
+	godot_scale =.5
+	godot_base_instances = 1
+	godot_instances = 0
+	godot_level = 0
+	# regen
+	health_recovery = 0.01
+
+	my_upgrades = {
+		"debug":0,
+		"attack damage":0,
+		"attack speed":0,
+		"godot":0,
+		"projectiles":0,
+		"speed":0,
+	}
+	
+	# Upgrade
+	collected_upgrades = []
+	upgrade_choices = []
+	
+	lblUpgrades.text = ""
+
+	reset_upgrades()
+	collected_upgrades = []
+	update_experience(0)
+	refresh_displayed_upgrades()
+	refresh_displayed_level()
